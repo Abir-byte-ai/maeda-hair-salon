@@ -1,0 +1,18 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Dependencies (only relevant if you later add a build step)
+node_modules/
+
+# Never commit real secrets if a backend is added later
+.env
+.env.local
+*.pem
+*.key
+
+# Large source video exports you may keep locally before compressing
+assets/video/*-source.*

@@ -1,0 +1,34 @@
+/* ==========================================================================
+   UTILITIES — small reusable helpers so markup never needs a style="" attribute.
+   Keeping style-src free of 'unsafe-inline' in the CSP depends on this file.
+   ========================================================================== */
+
+.lead-text { font-size: var(--fs-md); max-width: 46ch; }
+.caption-xs { margin: 0; font-size: var(--fs-xs); color: var(--color-body-soft); }
+.mb-1 { margin-bottom: var(--sp-1); }
+.mb-3 { margin-bottom: var(--sp-3); }
+.mb-4 { margin-bottom: var(--sp-4); }
+.mt-4 { margin-top: var(--sp-4); }
+.center-block { margin-inline: auto; text-align: center; }
+
+.curl-quote {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  color: var(--color-ink);
+  max-width: 32ch;
+  margin: 0 auto;
+}
+.curl-attribution {
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-body-soft);
+}
+
+.cta-lead { max-width: 46ch; margin-inline: auto; opacity: 0.95; }
+
+.social-row {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}

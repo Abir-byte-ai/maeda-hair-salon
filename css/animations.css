@@ -1,0 +1,159 @@
+/* ==========================================================================
+   ANIMATIONS — scroll reveals, the signature curl draw, ambient motion
+   All animation is opt-out via prefers-reduced-motion (see base.css + tokens.css)
+   ========================================================================== */
+
+@keyframes draw-curl {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes soft-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@keyframes hero-rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blob-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(28px, -22px) scale(1.06); }
+}
+
+@keyframes blob-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-22px, 20px) scale(0.94); }
+}
+
+@keyframes star-pop-in {
+  from { opacity: 0; transform: scale(0.4) rotate(-18deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes count-up-glow {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes pin-drop {
+  0% { opacity: 0; transform: translateY(-70px); }
+  60% { opacity: 1; transform: translateY(8px); }
+  80% { transform: translateY(-5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Hero entrance — pure CSS, plays on page load with no JS dependency,
+   so it works identically whether or not scripts are enabled. Each line
+   and each below-the-fold group gets its own delay via data attributes. -- */
+.hero-heading .hero-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(26px);
+  animation: hero-rise-in 0.75s var(--ease) forwards;
+}
+.hero-heading .hero-line:nth-child(1) { animation-delay: 100ms; }
+.hero-heading .hero-line:nth-child(2) { animation-delay: 230ms; }
+
+.hero-fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: hero-rise-in 0.7s var(--ease) forwards;
+  animation-delay: 360ms;
+}
+.hero-fade-in[data-fade-delay="3"] { animation-delay: 300ms; }
+.hero-fade-in[data-fade-delay="4"] { animation-delay: 420ms; }
+.hero-fade-in[data-fade-delay="5"] { animation-delay: 520ms; }
+.hero-fade-in[data-fade-delay="6"] { animation-delay: 620ms; }
+
+/* If JS never runs to remove .no-js, the hero must still be fully visible —
+   the animation above already ends in the visible state (forwards fill),
+   so no extra rule is needed here; this comment documents that guarantee. */
+
+/* ---- Testimonial stars: pop in one-by-one once the card is revealed ----- */
+.stars span {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0.4) rotate(-18deg);
+}
+.testimonial-card.is-visible .stars span {
+  animation: star-pop-in 0.4s var(--ease) forwards;
+}
+.testimonial-card.is-visible .stars span:nth-child(1) { animation-delay: 80ms; }
+.testimonial-card.is-visible .stars span:nth-child(2) { animation-delay: 160ms; }
+.testimonial-card.is-visible .stars span:nth-child(3) { animation-delay: 240ms; }
+.testimonial-card.is-visible .stars span:nth-child(4) { animation-delay: 320ms; }
+.testimonial-card.is-visible .stars span:nth-child(5) { animation-delay: 400ms; }
+.no-js .stars span { opacity: 1; transform: none; animation: none; }
+
+/* Count-up numbers get a soft glow-in while animating, toggled by count-up.js */
+[data-count-to].is-counting { animation: count-up-glow 1.1s var(--ease); }
+
+/* Scroll-reveal utility: elements start hidden, main.js adds .is-visible via
+   IntersectionObserver. If JS fails to load, content is still fully visible
+   (progressive enhancement — see .no-js-fallback below). */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal][data-reveal-delay="1"] { transition-delay: 90ms; }
+[data-reveal][data-reveal-delay="2"] { transition-delay: 180ms; }
+[data-reveal][data-reveal-delay="3"] { transition-delay: 270ms; }
+
+/* Auto-cascade for grids of same-type cards — cleaner than hand-assigning
+   data-reveal-delay on every card, and scales automatically if a card is
+   added or removed later. */
+.services-grid .service-card:nth-child(1) { transition-delay: 0ms; }
+.services-grid .service-card:nth-child(2) { transition-delay: 80ms; }
+.services-grid .service-card:nth-child(3) { transition-delay: 160ms; }
+.services-grid .service-card:nth-child(4) { transition-delay: 240ms; }
+.services-grid .service-card:nth-child(5) { transition-delay: 320ms; }
+.services-grid .service-card:nth-child(6) { transition-delay: 400ms; }
+
+.testimonial-track .testimonial-slide:nth-child(1) .testimonial-card { transition-delay: 0ms; }
+.testimonial-track .testimonial-slide:nth-child(2) .testimonial-card { transition-delay: 120ms; }
+.testimonial-track .testimonial-slide:nth-child(3) .testimonial-card { transition-delay: 240ms; }
+
+/* If JavaScript is disabled entirely, never hide content */
+.no-js [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+.badge .dot {
+  animation: gentle-pulse 2.4s var(--ease) infinite;
+}
+
+.lottie-badge {
+  animation: soft-float 4.5s var(--ease) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .badge .dot, .lottie-badge { animation: none; }
+  .hero-heading .hero-line,
+  .hero-fade-in,
+  .stars span {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .hero-blob-a, .hero-blob-b { animation: none; }
+  .map-pin { opacity: 1; transform: none; animation: none; }
+}

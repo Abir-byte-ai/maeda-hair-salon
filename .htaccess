@@ -1,0 +1,30 @@
+# ============================================================================
+# Apache security headers — for shared/cPanel hosting. Requires mod_headers
+# (enabled on almost all shared hosts by default). Same policy as _headers
+# (Netlify) and vercel.json — pick whichever file matches your host and
+# delete the other two.
+# ============================================================================
+
+<IfModule mod_headers.c>
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=(), usb=()"
+  Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; frame-src https://www.google.com; frame-ancestors 'none'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+</IfModule>
+
+# Force HTTPS (only enable once a valid TLS certificate is installed)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# Never serve directory listings
+Options -Indexes
+
+# Block access to dotfiles (.git, .env, this file's siblings, etc.)
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

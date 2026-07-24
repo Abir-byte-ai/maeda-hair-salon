@@ -1,0 +1,321 @@
+/* ==========================================================================
+   LAYOUT — containers, header, grid scaffolding for each section
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--sp-4);
+}
+
+section { padding: var(--sp-8) 0; position: relative; }
+section.tight { padding: var(--sp-6) 0; }
+
+.section-head {
+  max-width: 640px;
+  margin: 0 0 var(--sp-6);
+}
+.section-head.center { margin-inline: auto; text-align: center; }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--sp-2);
+}
+
+/* ---- Header ----------------------------------------------------------------*/
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  background: rgba(253, 242, 248, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+  transition: box-shadow var(--dur-base) var(--ease), background var(--dur-base) var(--ease);
+}
+
+.site-header.is-scrolled {
+  background: rgba(253, 242, 248, 0.97);
+  box-shadow: var(--shadow-sm);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-5);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+/* ---- Hero --------------------------------------------------------------------*/
+.hero {
+  padding-top: var(--sp-7);
+  padding-bottom: var(--sp-7);
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+}
+
+/* The uploaded business-card photo, used as a faint organic texture rather
+   than a crisp logo (it's a photo of scattered cards, not a vector mark).
+   Desaturated + heavily faded + covered by the section's own background
+   tint so it reads as texture, never competes with foreground text. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("assets/images/logo-card-texture.jpg");
+  background-size: 480px;
+  background-repeat: repeat;
+  filter: grayscale(1) contrast(0.9);
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero .container { position: relative; z-index: 1; }
+
+/* Decorative drifting gradient blobs — negative z-index keeps them behind
+   all normal-flow content regardless of DOM position (see hero::before,
+   which uses the same layering approach for the texture). */
+.hero-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: -1;
+}
+.hero-blob-a {
+  width: 360px;
+  height: 360px;
+  top: -100px;
+  left: -80px;
+  background: var(--color-secondary);
+  animation: blob-drift-a 12s var(--ease) infinite;
+}
+.hero-blob-b {
+  width: 280px;
+  height: 280px;
+  bottom: -80px;
+  right: 6%;
+  background: var(--color-accent);
+  opacity: 0.25;
+  animation: blob-drift-b 15s var(--ease) infinite;
+}
+
+.hero .container {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: var(--sp-7);
+  align-items: center;
+}
+
+.hero-copy .stat-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-5);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+/* ---- Trust strip -------------------------------------------------------------*/
+.trust-strip {
+  padding: var(--sp-5) 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--sp-4);
+}
+
+/* ---- Services grid -------------------------------------------------------------*/
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+/* ---- Pricing grid ----------------------------------------------------------------*/
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp-4);
+}
+
+/* ---- FAQ ---------------------------------------------------------------------------*/
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ---- Mobile sticky call bar ------------------------------------------------------- */
+/* Hidden entirely on desktop; see responsive.css for the mobile breakpoint that
+   makes it a fixed bottom bar. Base rules live here so both files stay readable. */
+.mobile-call-bar {
+  display: none;
+}
+
+/* ---- Story / signature section ---------------------------------------------------*/
+.story-section {
+  background: var(--color-bg-alt);
+  position: relative;
+  z-index: 0;
+}
+.story-section .container {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: var(--sp-7);
+  align-items: center;
+}
+
+/* Wave dividers — flush against the section's own box (translateY shifts
+   each wave by exactly its own height so there's no seam), matching the
+   white fill against the section's background and letting the page's pink
+   show through the transparent part of each curve. */
+.section-wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  display: block;
+  pointer-events: none;
+}
+.section-wave path { fill: var(--color-bg-alt); }
+.section-wave-top { top: 0; transform: translateY(-99%); }
+.section-wave-bottom { bottom: 0; transform: translateY(99%); }
+
+/* ---- Location -----------------------------------------------------------------------*/
+.location-section .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-6);
+  align-items: stretch;
+}
+
+.map-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  min-height: 420px;
+}
+.map-frame iframe { width: 100%; height: 100%; min-height: 420px; border: 0; display: block; }
+
+/* Decorative pin overlaying the map's top-center. Resting position (top:18px)
+   stays inside the frame's own bounds — the frame's overflow:hidden would
+   otherwise clip anything positioned above its top edge. The drop-in
+   animation approaches from further up, so that same overflow:hidden masks
+   the travel and it reads as the pin "arriving" from off-screen. */
+.map-pin {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin-left: -22px;
+  z-index: 5;
+  color: var(--color-primary);
+  filter: drop-shadow(0 6px 10px rgba(91, 19, 48, 0.35));
+  opacity: 0;
+  transform: translateY(-70px);
+  pointer-events: none;
+}
+.map-pin.is-visible {
+  animation: pin-drop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.no-js .map-pin { opacity: 1; transform: none; }
+
+.hours-card {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-5);
+  box-shadow: var(--shadow-md);
+}
+
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--fs-sm);
+}
+.hours-row:last-of-type { border-bottom: none; }
+
+/* ---- Final CTA banner ----------------------------------------------------------------*/
+.cta-banner {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 130%);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-6);
+  text-align: center;
+  color: #fff;
+}
+.cta-banner h2, .cta-banner p { color: #fff; }
+.cta-banner .hero-actions { justify-content: center; }
+
+/* ---- Footer -----------------------------------------------------------------------------*/
+.site-footer {
+  padding: var(--sp-7) 0 var(--sp-5);
+  background: var(--color-ink);
+  color: #F4D9E6;
+}
+.site-footer a { color: #fff; }
+.site-footer h3 { color: #fff; font-size: var(--fs-md); }
+.site-footer .wordmark { margin-bottom: var(--sp-3); display: flex; }
+.site-footer .wordmark .en { color: #fff; }
+.site-footer .wordmark .zh { color: #F4A8C9; }
+.footer-tagline { max-width: 32ch; color: #E7B9CF; font-size: var(--fs-sm); }
+.footer-links { display: flex; flex-direction: column; gap: var(--sp-2); font-size: var(--fs-sm); }
+.footer-line { font-size: var(--fs-sm); }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr 1.2fr;
+  gap: var(--sp-5);
+  margin-bottom: var(--sp-6);
+}
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: var(--sp-4);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: #D89DB8;
+}

@@ -1,0 +1,143 @@
+/* ==========================================================================
+   RESPONSIVE — breakpoints at 1024 / 768 / 375 per design-system checklist
+   ========================================================================== */
+
+/* ---- Nav: hide inline links below 1024px, show hamburger ------------------- */
+@media (max-width: 1023px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: inline-flex; }
+
+  .nav-links.is-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--header-h);
+    left: 0; right: 0;
+    background: var(--color-bg-alt);
+    padding: var(--sp-4);
+    gap: var(--sp-3);
+    box-shadow: var(--shadow-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero .container { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; }
+  .video-frame { max-width: 360px; }
+
+  .story-section .container { grid-template-columns: 1fr; }
+  .story-visual { order: -1; }
+
+  .location-section .container { grid-template-columns: 1fr; }
+
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1024px) {
+  .nav-toggle { display: none; }
+}
+
+/* ---- Tablet ------------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .trust-grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-5); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonial-track { grid-template-columns: 1fr; }
+}
+
+/* ---- Mobile (≤768px) ----------------------------------------------------------- */
+@media (max-width: 768px) {
+  :root { --header-h: 68px; }
+
+  body { padding-bottom: 78px; }
+
+  h1 { font-size: var(--fs-2xl); }
+  h2 { font-size: var(--fs-xl); }
+
+  section { padding: var(--sp-6) 0; }
+
+  .hero { padding-top: var(--sp-5); padding-bottom: var(--sp-5); }
+  .hero-copy .stat-row { flex-wrap: wrap; gap: var(--sp-3); }
+  .hero-actions .btn { flex: 1 1 auto; }
+
+  .services-grid { grid-template-columns: 1fr; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: var(--sp-5); }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+  .cta-banner { padding: var(--sp-5) var(--sp-4); }
+
+  .video-frame { max-width: 300px; }
+  .lottie-badge { width: 84px; height: 84px; bottom: -12px; right: -12px; }
+  .lottie-badge lottie-player { width: 54px; height: 54px; }
+
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Sticky mobile call bar becomes visible only at this breakpoint — see
+     .mobile-call-bar base rule (display:none) in css/layout.css. */
+  .mobile-call-bar {
+    display: flex;
+    gap: var(--sp-2);
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 90;
+    padding: var(--sp-2) var(--sp-3);
+    padding-bottom: calc(var(--sp-2) + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 -8px 24px rgba(91, 19, 48, 0.14);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.3s var(--ease), visibility 0s linear 0.3s;
+  }
+  .mobile-call-bar.is-visible {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.3s var(--ease), visibility 0s linear 0s;
+  }
+  .mobile-call-bar .btn {
+    flex: 1 1 auto;
+    padding: 0.7rem 1rem;
+    font-size: var(--fs-sm);
+  }
+  /* Without JS, .is-visible never gets added — keep the bar usable anyway. */
+  .no-js .mobile-call-bar {
+    display: flex;
+    transform: none;
+    visibility: visible;
+    position: sticky;
+    bottom: 0;
+  }
+}
+
+/* ---- Small phones (≤375px) ------------------------------------------------------ */
+@media (max-width: 375px) {
+  .container { padding: 0 var(--sp-3); }
+  h1 { font-size: 1.9rem; }
+  .btn { padding: 0.75rem 1.25rem; font-size: var(--fs-xs); }
+  .video-frame { max-width: 260px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Header: keep the wordmark from ever being squeezed --------------------------- */
+@media (max-width: 480px) {
+  .site-header .container { gap: var(--sp-2); }
+  .header-actions { gap: var(--sp-2); }
+  .header-actions > * { flex-shrink: 0; }
+  .header-actions .btn-primary {
+    padding: 0;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+  }
+  .header-actions .btn-primary .btn-label { display: none; }
+  .header-actions .btn-primary svg { width: 20px; height: 20px; }
+  .wordmark .en { font-size: var(--fs-md); }
+  .wordmark .zh { font-size: 0.7rem; }
+  .lang-toggle { padding: 0.4rem 0.65rem; font-size: var(--fs-xs); }
+}
+
+/* ---- Large screens: cap visual scale nicely ------------------------------------- */
+@media (min-width: 1440px) {
+  .container { max-width: 1320px; }
+  h1 { font-size: 3.75rem; }
+}
